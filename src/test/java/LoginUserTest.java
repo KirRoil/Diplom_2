@@ -6,8 +6,7 @@ import org.junit.Test;
 
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.apache.http.HttpStatus.SC_UNAUTHORIZED;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -30,7 +29,7 @@ public class LoginUserTest {
         Response loginResponse = userClient.login(UserCredentials.from(user));
 
         int statusCode = loginResponse.getStatusCode();
-        assertThat(statusCode, equalTo(SC_OK));
+        assertEquals(SC_OK, statusCode);
 
         boolean succesLogin = loginResponse.body().jsonPath().getBoolean("success");
         assertTrue(succesLogin);
@@ -48,10 +47,10 @@ public class LoginUserTest {
         Response loginResponse = userClient.login(Generator.getRandomUserCredentials());
 
         int statusCode = loginResponse.getStatusCode();
-        assertThat(statusCode, equalTo(SC_UNAUTHORIZED));
+        assertEquals(SC_UNAUTHORIZED, statusCode);
 
         String message = loginResponse.body().jsonPath().getString("message");
-        assertThat(message, equalTo(loginErrorMessage));
+        assertEquals(loginErrorMessage, message);
     }
 
     @After

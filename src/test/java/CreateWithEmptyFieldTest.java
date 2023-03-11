@@ -9,8 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.apache.http.HttpStatus.SC_FORBIDDEN;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(DataProviderRunner.class)
 public class CreateWithEmptyFieldTest {
@@ -38,9 +37,9 @@ public class CreateWithEmptyFieldTest {
         User user = Generator.getDefault(email, password, name);
         createNullField = userClient.createUser(user);
         int statusCode = createNullField.getStatusCode();
-        assertThat(statusCode, equalTo(SC_FORBIDDEN));
+        assertEquals(SC_FORBIDDEN, statusCode);
         String message = createNullField.jsonPath().getString("message");
-        assertThat(message, equalTo("Email, password and name are required fields"));
+        assertEquals("Email, password and name are required fields", message);
     }
 
     @After
@@ -50,9 +49,4 @@ public class CreateWithEmptyFieldTest {
             userClient.delete(accessToken);
         }
     }
-
 }
-
-
-
-

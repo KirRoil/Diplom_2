@@ -6,8 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.apache.http.HttpStatus.*;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -34,7 +32,7 @@ public class ChangeUserTest {
         User updateUser = Generator.getRandomUser();
         Response UpdateUserResponse = userClient.updateUser(updateUser, accessToken);
         int statusCode = UpdateUserResponse.getStatusCode();
-        assertThat(statusCode, equalTo(SC_OK));
+        assertEquals(SC_OK, statusCode);
         boolean isUpdateUserResponseSuccess = UpdateUserResponse.jsonPath().getBoolean("success");
         assertTrue(isUpdateUserResponseSuccess);
         String email = UpdateUserResponse.jsonPath().getString("user.email");
@@ -48,7 +46,7 @@ public class ChangeUserTest {
     public void changeUserDataWithoutLoginTest() {
         Response UpdateUserResponse = userClient.updateUser(Generator.getRandomUser(), "");
         int statusCode = UpdateUserResponse.getStatusCode();
-        assertThat(statusCode, equalTo(SC_UNAUTHORIZED));
+        assertEquals(SC_UNAUTHORIZED, statusCode);
         String message = UpdateUserResponse.jsonPath().getString("message");
         assertEquals(authErrorMessage, message);
     }
@@ -59,7 +57,7 @@ public class ChangeUserTest {
         User updatEmailUser = new User(Generator.getRandomUser().getEmail(), user.getPassword(), user.getName());
         Response UpdateUserResponse = userClient.updateUser(updatEmailUser, accessToken);
         int statusCode = UpdateUserResponse.getStatusCode();
-        assertThat(statusCode, equalTo(SC_OK));
+        assertEquals(SC_OK, statusCode);
         boolean isUpdateUserResponseSuccess = UpdateUserResponse.jsonPath().getBoolean("success");
         assertTrue(isUpdateUserResponseSuccess);
         String email = UpdateUserResponse.jsonPath().getString("user.email");
@@ -88,7 +86,7 @@ public class ChangeUserTest {
         User updateExistsEmailUser = new User(NewUserEmail, user.getPassword(), user.getName());
         Response responseRegUpdateUser = userClient.updateUser(updateExistsEmailUser, accessToken);
         int statusCode = responseRegUpdateUser.getStatusCode();
-        assertThat(statusCode, equalTo(SC_FORBIDDEN));
+        assertEquals(SC_FORBIDDEN, statusCode);
         String message = responseRegUpdateUser.jsonPath().getString("message");
         assertEquals(existsEmailError, message);
     }

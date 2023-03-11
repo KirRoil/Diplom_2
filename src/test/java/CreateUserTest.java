@@ -6,8 +6,7 @@ import org.junit.Test;
 
 import static org.apache.http.HttpStatus.SC_FORBIDDEN;
 import static org.apache.http.HttpStatus.SC_OK;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -29,7 +28,7 @@ public class CreateUserTest {
     public void userSuccesCreateTest() {
         Response responseReg = userClient.createUser(user);
         int statusCode = responseReg.getStatusCode();
-        assertThat(statusCode, equalTo(SC_OK));
+        assertEquals(SC_OK, statusCode);
         boolean succesCreated = responseReg.jsonPath().getBoolean("success");
         assertTrue(succesCreated);
         accessToken = responseReg.body().jsonPath().getString("accessToken");
@@ -46,9 +45,9 @@ public class CreateUserTest {
         String message = doubleReg.jsonPath().getString("message");
         accessToken = doubleReg.body().jsonPath().getString("accessToken");
         int statusCode = doubleReg.getStatusCode();
-        assertThat(statusCode, equalTo(SC_FORBIDDEN));
+        assertEquals(SC_FORBIDDEN, statusCode);
         accessToken = doubleReg.body().jsonPath().getString("accessToken");
-        assertThat(message, equalTo(sameUserErrorMessage));
+        assertEquals(sameUserErrorMessage, message);
     }
 
     @After
@@ -57,4 +56,3 @@ public class CreateUserTest {
     }
 
 }
-
